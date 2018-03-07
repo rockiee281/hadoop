@@ -453,11 +453,13 @@ public class AggregatedLogFormat {
 
     public void close() {
       try {
-        IOUtils.closeStream(this.writer);
+        if (writer != null) {
+          writer.close();
+        }
       } catch (Exception e) {
         LOG.warn("Exception closing writer", e);
       } finally {
-        IOUtils.closeStream(this.fsDataOStream);
+        IOUtils.cleanup(LOG, this.fsDataOStream);
       }
     }
   }
